@@ -33,11 +33,11 @@ Arquivo JSON:
 ```
 
   - banco: Coloque o nome de seu banco
-  - ip: Endereço do banco de dados
+  - ip: Endereço do banco
   - porta: Porta do banco
   - versao_oracle: Nome do serviço 
   - usuario: Nome do usuário
-  - senha: Senha de acesso ao banco
+  - senha: Senha de acesso
   - dialeto: Dialeto do Hibernate para seu banco
   - driver: Driver de conexão do script ao banco
   
@@ -52,9 +52,13 @@ Para a execução do log da aplicação, utilizamos a biblioteca [Log4j](https:/
 Mas caso deseje incrementar outros logs, o arquivo se encontra no diretório:
 
 ```sh
- src/main/resources/Log/principal.txt
+ src/main/resources/config/log4j.properties
 ```	
+O arquivo log gerado, pode ser visto no diretório:
 
+```sh
+ src/main/resources/Log
+```	
 
 ### Agendador de Tarefas
 Rotina responsável pela execução automática do script, para deixar o módulo sempre atualizado.
