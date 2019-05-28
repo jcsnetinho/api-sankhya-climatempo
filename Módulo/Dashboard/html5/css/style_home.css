@@ -1,0 +1,41 @@
+@media (min-width: 768px) and (max-width: 979px) {
+     #titleGraus{
+         font-size: 4rem;
+    }
+}
+/* Landscape phone to portrait tablet */
+ @media (max-width: 767px) {
+     #titleGraus{
+         font-size: 4rem;
+    }
+}
+/* Landscape phones and down */
+ @media (max-width: 480px) {
+     #titleGraus{
+         font-size: 5rem;
+    }
+}
+ .textInfo{
+     font-weight:bold;
+     font-size: 17px;
+}
+ #titleGraus{
+     font-size: 3.7rem;
+}
+ .container {
+     max-width: 960px;
+}
+ .pricing-header {
+     max-width: 700px;
+}
+ .card-deck .card {
+     min-width: 220px;
+}
+ .responsive {
+     max-width:180px;
+     max-height:90px;
+     width: auto;
+     height: auto;
+     text-align:left;
+     margin-top: -16px;
+}

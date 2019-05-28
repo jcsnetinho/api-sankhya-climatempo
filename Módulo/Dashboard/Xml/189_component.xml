@@ -1,0 +1,74 @@
+<gadget>
+  <prompt-parameters>
+    <parameter id="P_CIDADE" description="Cidade" metadata="multiList:Text" listType="sql" required="true" keep-last="true" keep-date="false">
+      <expression type="SQL"><![CDATA[SELECT DISTINCT CODCID AS VALUE,NOMECID AS LABELFROM TSICIDWHERE AD_MAPEARCIDADE IS NOT NULLORDER BY 1]]></expression>
+    </parameter>
+  </prompt-parameters>
+  <level id="lvl_79b7ju" description="Principal">
+    <args>
+      <arg id="CODCID" type="integer"/>
+    </args>
+    <container orientacao="V" tamanhoRelativo="100">
+      <html5component id="html5_79b7jv" entryPoint="home.jsp"/>
+    </container>
+  </level>
+  <level id="lvl_abmxejt" description="Periodo">
+    <args>
+      <arg id="CODCID" type="integer"/>
+      <arg id="P_DATA" type="text"/>
+    </args>
+    <container orientacao="V" tamanhoRelativo="100">
+      <html5component id="html5_afha2bk" entryPoint="sub_home.jsp"/>
+    </container>
+  </level>
+  <level id="lvl_gtr430" description="Chuva/Temperatura/Vento">
+    <args>
+      <arg id="CODCID" type="integer"/>
+      <arg id="P_DATA" type="text"/>
+    </args>
+    <container orientacao="V" tamanhoRelativo="100">
+      <chart id="cht_gtr432" type="line" nroColuna="30">
+        <title><![CDATA[$TITULO]]></title>
+        <expression type="sql" data-source="MGEDS"><![CDATA[SELECT CID.CODCID, CID.NOMECID,to_char(H.DATAPREVISAO, 'dd/MM') AS DATA,TO_CHAR(H.DATAPREVISAO, ' hh24:mi') AS HORA,H.VELOCIDADEVENTO AS VARIAVEL,'INTENSIDADE DOS VENTOS' AS NOME, 'A' AS TITULOFROM AD_PRETEMH H, TSICID CIDWHERE H.CODCID = CID.CODCIDAND H.CODCID = :CODCIDAND TO_NUMBER(SUBSTR(TO_CHAR(SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 1, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 3, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)),5, 6)),9,9)) = 1AND TO_CHAR(H.DATAPREVISAO) = TO_CHAR(SUBSTR(TO_CHAR(SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 1, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 3, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)),5, 6)),1,8))UNION ALLSELECT CID.CODCID, CID.NOMECID,to_char(H.DATAPREVISAO, 'dd/MM') AS DATA,TO_CHAR(H.DATAPREVISAO, ' hh24:mi') AS HORA,H.TEMPERATURA,'TEMPERATURA' AS NOME,'B' AS TITULOFROM AD_PRETEMH H, TSICID CIDWHERE H.CODCID = CID.CODCIDAND H.CODCID = :CODCIDAND TO_NUMBER(SUBSTR(TO_CHAR(SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 1, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 3, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)),5, 6)),9,9)) = 2AND TO_CHAR(H.DATAPREVISAO) = TO_CHAR(SUBSTR(TO_CHAR(SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 1, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 3, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)),5, 6)),1,8))UNION ALLSELECT CID.CODCID, CID.NOMECID,to_char(H.DATAPREVISAO, 'dd/MM') AS DATA,TO_CHAR(H.DATAPREVISAO, ' hh24:mi') AS HORA,H.PRECIPITACAOCHUVA, 'CHUVA' AS NOME,'C' AS TITULOFROM AD_PRETEMH H, TSICID CIDWHERE H.CODCID = CID.CODCIDAND H.CODCID = :CODCIDAND TO_NUMBER(SUBSTR(TO_CHAR(SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 1, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 3, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)),5, 6)),9,9)) = 3AND TO_CHAR(H.DATAPREVISAO) = TO_CHAR(SUBSTR(TO_CHAR(SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 1, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)), 3, 2)||'/'||SUBSTR(TO_CHAR(LPAD(:P_DATA,7,0)),5, 6)),1,8))ORDER BY 4]]></expression>
+        <metadata>
+          <field name="CODCID" label="CODCID" type="I" visible="true" useFooter="false"/>
+          <field name="NOMECID" label="NOMECID" type="S" visible="true" useFooter="false"/>
+          <field name="DATA" label="DATA" type="S" visible="true" useFooter="false"/>
+          <field name="HORA" label="HORA" type="S" visible="true" useFooter="false"/>
+          <field name="VARIAVEL" label="VARIAVEL" type="F" visible="true" useFooter="false"/>
+          <field name="NOME" label="NOME" type="S" visible="true" useFooter="false"/>
+          <field name="TITULO" label="TITULO" type="S" visible="true" useFooter="false"/>
+        </metadata>
+        <horizontal-axis>
+          <category field="HORA" rotation="-48" dropLabel="false">
+            <initView value="first"/>
+            <title>Hora</title>
+          </category>
+        </horizontal-axis>
+        <vertical-axis>
+          <category field="$NOME" rotation="1" dropLabel="false">
+            <initView value="first"/>
+            <title>Variavel</title>
+          </category>
+        </vertical-axis>
+        <series>
+          <serie type="line" circle-intersection="true" show-tip="false">
+            <xField>$HORA</xField>
+            <yField>$VARIAVEL</yField>
+            <display><![CDATA[$NOME]]></display>
+          </serie>
+        </series>
+        <legend position="right" direction="v"/>
+      </chart>
+    </container>
+  </level>
+  <level id="lvl_kmprlf" description="Previsão - detalhe">
+    <args>
+      <arg id="P_DATA" type="text"/>
+      <arg id="CODCID" type="integer"/>
+    </args>
+    <container orientacao="V" tamanhoRelativo="100">
+      <html5component id="html5_kmprlg" entryPoint="detalhe.jsp"/>
+    </container>
+  </level>
+</gadget>
