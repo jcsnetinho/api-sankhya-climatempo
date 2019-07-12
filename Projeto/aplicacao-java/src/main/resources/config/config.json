@@ -1,0 +1,10 @@
+{
+  "banco": "oracle",
+  "ip":"COLOQUE AQUI SEU IP",
+  "porta":1521,
+  "versao_oracle":"XE",
+  "usuario":"COLOQUE AQUI SEU USUARIO",
+  "senha":"SENHA DO BANCO",
+  "dialeto": "org.hibernate.dialect.Oracle10gDialect",
+  "driver": "oracle.jdbc.driver.OracleDriver"
+}
